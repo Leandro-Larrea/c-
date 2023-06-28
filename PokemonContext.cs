@@ -15,8 +15,13 @@ namespace pokeSharp
         public DbSet<_Type> Types {get; set;}
 
         public PokemonContext(DbContextOptions<PokemonContext> options): base(options){}
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            List<Pokemon> pokemonInitData = new();
+            pokemonInitData.Add(new Pokemon(){id=1,name = "pikachuCustom"});
+
             modelBuilder.Entity<Pokemon>(pokemon=>
             {
                 pokemon.ToTable("Pokemon");
@@ -24,6 +29,7 @@ namespace pokeSharp
 
                 pokemon.Property(c=>c.name).IsRequired().HasMaxLength(150);
                 pokemon.Property(c=>c.DateTime);
+                pokemon.Property(c=>c.LastName);
 
 
                 pokemon.HasMany(p => p.Types)
@@ -35,6 +41,7 @@ namespace pokeSharp
                     joinEntity.Property<Guid>("id"); // Nombre de la propiedad de la clave foránea de Pokemon
                     joinEntity.HasKey("TypeId", "id"); // Clave primaria compuesta de la tabla de unión
                 });
+                pokemon.HasData(pokemonInitData);
 
             });
             modelBuilder.Entity<_Type>(tipito=>

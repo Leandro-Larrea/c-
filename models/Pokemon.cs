@@ -6,8 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
     {        
         public int? id {get; set;}
         public string? name {get; set;} 
+        public string? LastName{get; set;}
         
         public DateTime DateTime{get; set;}
+
         public virtual ICollection<_Type>? Types {get; set;} 
 
     }

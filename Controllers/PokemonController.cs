@@ -1,9 +1,11 @@
+using System.Runtime.Intrinsics.X86;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 // using Newtonsoft.Json;
 using System.Text.Json;
 using pokeSharp.models;
 using Microsoft.EntityFrameworkCore;
+using pokeSharp;
 namespace pokeSharp.Controllers;
 
 [ApiController]
@@ -17,14 +19,13 @@ public class pokemonController : ControllerBase
 
      static List<Pokemon> pokeList = new();
 
-     [HttpGet]
 
-     public async Task<IActionResult> GetConnection([FromServices] PokemonContext pokeContext)
-     {
-        pokeContext.Database.EnsureCreated();
-        return Ok($"base de datos en memoria: {pokeContext.Database.IsInMemory()}");
-     }
-     
+    [HttpGet]
+    [Route("pokeDb")]
+    public async Task<IActionResult> GetPokemon([FromServices] PokemonContext pokeDb){
+        return Ok();
+    }
+
     [HttpGet("{id?}")]
     public IActionResult Get(int? id)
     {

@@ -12,8 +12,8 @@ using pokeSharp;
 namespace pokeSharp.Migrations
 {
     [DbContext(typeof(PokemonContext))]
-    [Migration("20230627234847_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230628032143_pokeCustom")]
+    partial class pokeCustom
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,9 @@ namespace pokeSharp.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -87,6 +90,14 @@ namespace pokeSharp.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Pokemon", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            id = 1,
+                            DateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            name = "pikachuCustom"
+                        });
                 });
 
             modelBuilder.Entity("pokeSharp.models._Type", b =>

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pokeSharp;
 
@@ -11,9 +12,11 @@ using pokeSharp;
 namespace pokeSharp.Migrations
 {
     [DbContext(typeof(PokemonContext))]
-    partial class PokemonContextModelSnapshot : ModelSnapshot
+    [Migration("20230628023339_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,9 +79,6 @@ namespace pokeSharp.Migrations
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("name")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -87,14 +87,6 @@ namespace pokeSharp.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Pokemon", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            DateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            name = "pikachuCustom"
-                        });
                 });
 
             modelBuilder.Entity("pokeSharp.models._Type", b =>
