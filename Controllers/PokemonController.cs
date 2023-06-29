@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Intrinsics.X86;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,47 @@ public class pokemonController : ControllerBase
 
      static List<Pokemon> pokeList = new();
 
+    [HttpGet]
+     public async Task<IActionResult>GetConnection([FromServices] PokemonContext pokeContext)
+     {
+        pokeContext.Database.EnsureCreated();
+        return Ok("conectado (?");
+     }
+
 
     [HttpGet]
+    [Route("pokeDb/{id}")]
+    public async Task<IActionResult> GetPokemon([FromServices] PokemonContext pokeDb,[FromRoute] int id){
+        try
+        {
+        var cokeList = pokeDb.Pokemons.Where(c => c.id == id).ToList();
+        if(cokeList.Count != 0  ) return Ok(cokeList);
+        throw new Exception("no hay nada chamigo");
+        }
+        catch (System.Exception e)
+        {
+            
+           return BadRequest(e.Message);
+        }
+        
+    }
+
+    [HttpPost]
     [Route("pokeDb")]
-    public async Task<IActionResult> GetPokemon([FromServices] PokemonContext pokeDb){
-        return Ok();
+
+    public async Task<IActionResult> PostPokemon([FromServices] PokemonContext pokeDb, [FromBody] Pokemon cokemon){
+       List<_Type> pokeTypesList =  pokeDb.Types.Where(p => cokemon.TypesToReceive.Contains(p.TypeId)).ToList();
+       
+       
+       if(pokeTypesList.Count != 0){
+        cokemon.DateTime = DateTime.Now;
+        cokemon.Types.AddRange(pokeTypesList);
+        await pokeDb.AddAsync(cokemon);
+
+        await pokeDb.SaveChangesAsync();
+        return Ok("creado");
+        }
+        return BadRequest("salio mal kpo");
     }
 
     [HttpGet("{id?}")]

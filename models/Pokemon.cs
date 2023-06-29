@@ -10,6 +10,9 @@ using System.ComponentModel.DataAnnotations.Schema;
         
         public DateTime DateTime{get; set;}
 
+        [NotMapped]
+        public List<Guid> TypesToReceive{get; set;}
+
         public virtual ICollection<_Type>? Types {get; set;} 
 
     }

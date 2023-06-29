@@ -41,14 +41,14 @@ internal class Program
 
         app.Run();
 
-        dbInit.GetConnection(app.Services.GetRequiredService<PokemonContext>());
+        // dbInit.GetConnection(app.Services.GetRequiredService<PokemonContext>());
     }
 }
 
-public class dbInit{
-    public static async void GetConnection([FromServices] PokemonContext pokeContext)
-     {
-        pokeContext.Database.EnsureCreated();
+// public class dbInit{
+//     public static async void GetConnection([FromServices] PokemonContext pokeContext)
+//      {
+//         pokeContext.Database.EnsureCreated();
         
-     }
-}
+//      }
+// }

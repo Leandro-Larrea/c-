@@ -9,7 +9,6 @@ namespace pokeSharp.models
         public string? Name {get; set;}  
 
         public string? MoveDamageClass {get; set;}
-        [Required]
         public virtual ICollection<Moves> Moves {get; set;}
 
         public virtual ICollection<Pokemon> Pokemons {get; set;}

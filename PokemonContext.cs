@@ -20,7 +20,7 @@ namespace pokeSharp
         {
 
             List<Pokemon> pokemonInitData = new();
-            pokemonInitData.Add(new Pokemon(){id=1,name = "pikachuCustom"});
+            pokemonInitData.Add(new Pokemon(){id=3,name = "pikachuCustom"});
 
             modelBuilder.Entity<Pokemon>(pokemon=>
             {
