@@ -20,7 +20,7 @@ namespace pokeSharp
         {
 
             List<Pokemon> pokemonInitData = new();
-            pokemonInitData.Add(new Pokemon(){id=3,name = "pikachuCustom"});
+            
 
             modelBuilder.Entity<Pokemon>(pokemon=>
             {
@@ -30,18 +30,7 @@ namespace pokeSharp
                 pokemon.Property(c=>c.name).IsRequired().HasMaxLength(150);
                 pokemon.Property(c=>c.DateTime);
                 pokemon.Property(c=>c.LastName);
-
-
-                pokemon.HasMany(p => p.Types)
-                .WithMany(t => t.Pokemons)
-                .UsingEntity(joinEntity =>
-                {
-                    joinEntity.ToTable("PokemonType2"); // Nombre de la tabla de unión
-                    joinEntity.Property<Guid>("TypeId"); // Nombre de la propiedad de la clave foránea de Type
-                    joinEntity.Property<Guid>("id"); // Nombre de la propiedad de la clave foránea de Pokemon
-                    joinEntity.HasKey("TypeId", "id"); // Clave primaria compuesta de la tabla de unión
-                });
-                pokemon.HasData(pokemonInitData);
+                
 
             });
             modelBuilder.Entity<_Type>(tipito=>

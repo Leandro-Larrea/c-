@@ -30,7 +30,7 @@ public class pokemonController : ControllerBase
 
     [HttpGet]
     [Route("pokeDb/{id}")]
-    public async Task<IActionResult> GetPokemon([FromServices] PokemonContext pokeDb,[FromRoute] int id){
+    public async Task<IActionResult> GetPokemon([FromServices] PokemonContext pokeDb,[FromRoute] Guid id){
         try
         {
         var cokeList = pokeDb.Pokemons.Where(c => c.id == id).ToList();
@@ -49,22 +49,20 @@ public class pokemonController : ControllerBase
     [Route("pokeDb")]
 
     public async Task<IActionResult> PostPokemon([FromServices] PokemonContext pokeDb, [FromBody] Pokemon cokemon){
-       List<_Type> pokeTypesList =  pokeDb.Types.Where(p => cokemon.TypesToReceive.Contains(p.TypeId)).ToList();
-       
-       
-       if(pokeTypesList.Count != 0){
+         List<_Type> pokeTypesList =  pokeDb.Types.Where(p => cokemon.TypesToReceive.Contains(p.TypeId)).ToList();
+         cokemon.Types = new List<_Type>();
+          foreach (_Type type in pokeTypesList) {  
+             cokemon.Types.Add(type);
+        };
         cokemon.DateTime = DateTime.Now;
-        cokemon.Types.AddRange(pokeTypesList);
         await pokeDb.AddAsync(cokemon);
 
         await pokeDb.SaveChangesAsync();
         return Ok("creado");
-        }
-        return BadRequest("salio mal kpo");
     }
 
     [HttpGet("{id?}")]
-    public IActionResult Get(int? id)
+    public IActionResult Get(Guid? id)
     {
         try
         {
@@ -104,7 +102,7 @@ public class pokemonController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    public IActionResult Delete(Guid id)
     {
         //filter
         pokeList = pokeList.Where(e => e.id != id).ToList();
@@ -112,7 +110,7 @@ public class pokemonController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(Pokemon ras, int id )  
+    public IActionResult Put(Pokemon ras, Guid id )  
     {
         //map
         pokeList = pokeList.Select(e=>{if(e.id == id){
